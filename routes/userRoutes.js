@@ -6,7 +6,7 @@ const router = express.Router();
 router.use(express.json());
 
 // Ruta para obtener un usuario por su ID
-router.get('/users/:cc', userController.getUserById);
+router.get('/users/:cc', userController.getUserByCC);
 // Ruta para obtener todos los usuarios
 router.get('/users/', userController.getAllUsers);
 // Ruta para crear un nuevo usuario

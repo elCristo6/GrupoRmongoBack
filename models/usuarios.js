@@ -20,7 +20,7 @@ const UserSchema = new mongoose.Schema({
     enum: ['admin', 'proveedor'],
     required: true,
   },
-});
+}, { timestamps: true }); // Habilitar timestamps
 
 const User = mongoose.model('User', UserSchema);
 module.exports = User;

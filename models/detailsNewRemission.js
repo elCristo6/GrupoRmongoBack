@@ -14,12 +14,11 @@ const DetalleFacturaSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  newRemissionId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Factura',
-    required: true,
+  newRemissionId: { 
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'newRemission',
+    required: true 
   }
-});
+},{ timestamps: true }); // Incluye createdAt y updatedAt
 
-const DetalleFactura = mongoose.model('DetalleFactura', DetalleFacturaSchema);
-module.exports = DetalleFactura;
+module.exports = mongoose.model('detailsNewRemission', DetalleFacturaSchema);
