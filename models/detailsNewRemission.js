@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const DetalleFacturaSchema = new mongoose.Schema({
   material: {
     type: String,
-    required: true,
+    required: false,
   },
   descripcion: {
     type: String,
@@ -12,12 +12,12 @@ const DetalleFacturaSchema = new mongoose.Schema({
   },
   cantidad: {
     type: Number,
-    required: true,
+    required: false,
   },
   newRemissionId: { 
     type: mongoose.Schema.Types.ObjectId, 
     ref: 'newRemission',
-    required: true 
+    required: false 
   }
 },{ timestamps: true }); // Incluye createdAt y updatedAt
 

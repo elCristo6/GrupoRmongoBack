@@ -68,35 +68,35 @@ const RemissionSchema = new mongoose.Schema({
   },
   ciudad: { 
     type: String, 
-    required: true 
+    required: false 
   },
   transportador: { 
     type: String, 
-    required: true 
+    required: false 
   },
   ccTransportador: { 
     type: String, 
-    required: true 
+    required: false 
   },
   direccion: { 
     type: String, 
-    required: true 
+    required: false 
   },
   placa: { 
     type: String, 
-    required: true 
+    required: false 
   },
   despachado: { 
     type: String, 
-    required: true 
+    required: false 
   },
   recibido: { 
     type: String, 
-    required: true 
+    required: false 
   },
   totalPeso: { 
     type: String, 
-    required: true 
+    required: false 
   },
   userCC: { 
     type: String, 
@@ -104,7 +104,7 @@ const RemissionSchema = new mongoose.Schema({
   },
   empresa: { 
     type: String, 
-    required: true 
+    required: false 
   },
   detailsNewRemissions: [
     {
