@@ -8,7 +8,7 @@ const DetalleFacturaSchema = new mongoose.Schema({
   },
   descripcion: {
     type: String,
-    required: true,
+    required: false,
   },
   cantidad: {
     type: Number,

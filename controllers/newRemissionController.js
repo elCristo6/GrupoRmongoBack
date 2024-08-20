@@ -36,20 +36,20 @@ const createRemission = async (req, res) => {
     // Obtener el siguiente ID secuencial
     const newId = await getNextSequenceValue('remissionId');
 
-    // Crear una nueva remisión
-    const nuevaFactura = new Factura({
-      id: newId,
-      ciudad,
-      transportador,
-      ccTransportador,
-      direccion,
-      placa,
-      despachado,
-      recibido,
-      totalPeso,
-      empresa,
-      userCC: userCCValue // Guardar el valor extraído de 'userCC'
-    });
+   // Validar y asignar valores predeterminados
+   const nuevaFactura = new Factura({
+    id: newId,
+    ciudad: ciudad || '', // Validación y asignación de valor predeterminado
+    transportador: transportador || '',
+    ccTransportador: ccTransportador || '',
+    direccion: direccion || '',
+    placa: placa || '',
+    despachado: despachado || '',
+    recibido: recibido || '',
+    totalPeso: totalPeso?.toString() || '', // Convertir a cadena o asignar cadena vacía
+    empresa: empresa || '',
+    userCC: userCCValue // Guardar el valor extraído de 'userCC'
+  });
 
     const savedFactura = await nuevaFactura.save();
 
@@ -59,9 +59,9 @@ const createRemission = async (req, res) => {
       detalles = await Promise.all(articulos.map(async (articulo) => {
         const { descripcion, cantidad, material } = articulo;
         const nuevoDetalle = new DetalleFactura({
-          descripcion,
-          cantidad,
-          material,
+          descripcion: descripcion || '', // Validación y asignación de valor predeterminado
+          cantidad: cantidad || 0, // Valor predeterminado en caso de `null`
+          material: material || '', // Validación y asignación de valor predeterminado
           newRemissionId: savedFactura._id
         });
         return await nuevoDetalle.save();
@@ -80,7 +80,6 @@ const createRemission = async (req, res) => {
 
 
 
-// Obtener remisiones por CC de usuario
 const getRemissionByCC = async (req, res) => {
   try {
     const user = await User.findOne({ cc: req.params.userCC });
@@ -93,23 +92,23 @@ const getRemissionByCC = async (req, res) => {
     const response = {
       facturas: facturas.map(factura => ({
         id: factura.id,
-        ciudad: factura.ciudad,
-        transportador: factura.transportador,
-        ccTransportador: factura.ccTransportador,
-        direccion: factura.direccion,
-        placa: factura.placa,
-        despachado: factura.despachado,
-        recibido: factura.recibido,
-        totalPeso: factura.totalPeso,
+        ciudad: factura.ciudad || '', // Validación de null
+        transportador: factura.transportador || '',
+        ccTransportador: factura.ccTransportador || '',
+        direccion: factura.direccion || '',
+        placa: factura.placa || '',
+        despachado: factura.despachado || '',
+        recibido: factura.recibido || '',
+        totalPeso: factura.totalPeso?.toString() || '', // Convertir a cadena o asignar cadena vacía
         userCC: factura.userCC,
-        empresa: factura.empresa,
+        empresa: factura.empresa || '',
         createdAt: factura.createdAt ? factura.createdAt.toISOString() : null,
         updatedAt: factura.updatedAt ? factura.updatedAt.toISOString() : null,
         detailsNewRemissions: factura.detailsNewRemissions.map(detalle => ({
           id: detalle._id.toString(),
-          material: detalle.material,
-          descripcion: detalle.descripcion,
-          cantidad: detalle.cantidad,
+          material: detalle.material || '',
+          descripcion: detalle.descripcion || '',
+          cantidad: detalle.cantidad || 0, // Validación y valor predeterminado
           createdAt: detalle.createdAt ? detalle.createdAt.toISOString() : null,
           updatedAt: detalle.updatedAt ? detalle.updatedAt.toISOString() : null,
           newRemissionId: factura.id
@@ -124,30 +123,29 @@ const getRemissionByCC = async (req, res) => {
   }
 };
 
-// Obtener todas las remisiones
 const getAllRemission = async (req, res) => {
   try {
     const facturas = await Factura.find().populate('detailsNewRemissions');
 
     const response = facturas.map(factura => ({
       id: factura.id,
-      ciudad: factura.ciudad,
-      transportador: factura.transportador,
-      ccTransportador: factura.ccTransportador,
-      direccion: factura.direccion,
-      placa: factura.placa,
-      despachado: factura.despachado,
-      recibido: factura.recibido,
-      totalPeso: factura.totalPeso.toString(), // Convertir a cadena
+      ciudad: factura.ciudad || '',
+      transportador: factura.transportador || '',
+      ccTransportador: factura.ccTransportador || '',
+      direccion: factura.direccion || '',
+      placa: factura.placa || '',
+      despachado: factura.despachado || '',
+      recibido: factura.recibido || '',
+      totalPeso: factura.totalPeso?.toString() || '',
       userCC: factura.userCC,
-      empresa: factura.empresa,
+      empresa: factura.empresa || '',
       createdAt: factura.createdAt ? factura.createdAt.toISOString() : null,
       updatedAt: factura.updatedAt ? factura.updatedAt.toISOString() : null,
       detailsNewRemissions: factura.detailsNewRemissions.map(detalle => ({
         id: detalle._id.toString(),
-        material: detalle.material,
-        descripcion: detalle.descripcion,
-        cantidad: detalle.cantidad,
+        material: detalle.material || '',
+        descripcion: detalle.descripcion || '',
+        cantidad: detalle.cantidad || 0,
         createdAt: detalle.createdAt ? detalle.createdAt.toISOString() : null,
         updatedAt: detalle.updatedAt ? detalle.updatedAt.toISOString() : null,
         newRemissionId: factura.id

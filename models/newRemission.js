@@ -68,35 +68,43 @@ const RemissionSchema = new mongoose.Schema({
   },
   ciudad: { 
     type: String, 
-    required: false 
+    required: false ,
+    default: ''
   },
   transportador: { 
     type: String, 
-    required: false 
+    required: false ,
+    default: ''
   },
   ccTransportador: { 
     type: String, 
-    required: false 
+    required: false ,
+    default: ''
   },
   direccion: { 
     type: String, 
-    required: false 
+    required: false,
+    default: ''
   },
   placa: { 
     type: String, 
-    required: false 
+    required: false,
+    default: ''
   },
   despachado: { 
     type: String, 
-    required: false 
+    required: false ,
+    default: ''
   },
   recibido: { 
     type: String, 
-    required: false 
+    required: false,
+    default: ''
   },
   totalPeso: { 
     type: String, 
-    required: false 
+    required: false,
+    default: ''
   },
   userCC: { 
     type: String, 
@@ -104,12 +112,14 @@ const RemissionSchema = new mongoose.Schema({
   },
   empresa: { 
     type: String, 
-    required: false 
+    required: false ,
+    default: ''
   },
   detailsNewRemissions: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'detailsNewRemission'
+      ref: 'detailsNewRemission',
+      required: false 
     }
   ]
 }, { timestamps: true }); // Incluye createdAt y updatedAt
